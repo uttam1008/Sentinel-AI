@@ -1,0 +1,17 @@
+# Environments
+venv/
+env/
+.env
+
+# Python Cache
+__pycache__/
+*.pyc
+
+# Local Data
+*.mp4
+*.avi
+runs/
+datasets/
+
+# MacOS
+.DS_Store

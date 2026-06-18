@@ -1,0 +1,6 @@
+streamlit
+ultralytics
+plotly
+streamlit-image-coordinates
+pandas
+pillow
