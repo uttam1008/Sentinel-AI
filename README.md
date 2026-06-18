@@ -17,11 +17,7 @@
 [![Streamlit](https://img.shields.io/badge/Streamlit-Tactical_UI-000000?style=for-the-badge&logo=streamlit&logoColor=FF4B4B)](https://streamlit.io/)
 [![Hugging Face](https://img.shields.io/badge/Hugging_Face-Live_Server-000000?style=for-the-badge&logo=huggingface&logoColor=yellow)](https://huggingface.co/)
 
-<br>
-
-> **WARNING: AUTHORIZED PERSONNEL ONLY** <br>
-> *This repository contains the source code for a military-grade computer vision dashboard designed for high-altitude drone surveillance, dynamic object detection, and zero-shot pixel-level instance segmentation.*
-
+<a href="https://huggingface.co/spaces/uttam250/Sentinel-AI"><img src="https://img.shields.io/badge/🤗_Hugging_Face-Live_Demo-yellow.svg" alt="Hugging Face Space" /></a>
 </div>
 
 ---
@@ -40,13 +36,13 @@ The system operates on a dual-engine neural pipeline:
 
 ```mermaid
 graph LR
-    A[Raw Drone Feed] -->|Input| B(Phase 1: YOLOv8 Radar)
-    B -->|Bounding Box Coordinates| C{Operator Decision}
-    C -->|Omni-Segmentation| D[MobileSAM: Auto-Process All]
-    C -->|Surgical Targeting| E[Frontend Pixel Intercept]
-    E -->|Click [X, Y]| F[MobileSAM: Single Target]
-    D --> G((Tactical UI Output))
-    F --> G((Tactical UI Output))
+    A["Raw Drone Feed"] -->|"Input"| B("Phase 1: YOLOv8 Radar")
+    B -->|"Bounding Box Coordinates"| C{"Operator Decision"}
+    C -->|"Omni-Segmentation"| D["MobileSAM: Auto-Process All"]
+    C -->|"Surgical Targeting"| E["Frontend Pixel Intercept"]
+    E -->|"Click (X, Y)"| F["MobileSAM: Single Target"]
+    D --> G(("Tactical UI Output"))
+    F --> G(("Tactical UI Output"))
 ```
 
 ---
@@ -78,7 +74,7 @@ To initialize Sentinel-AI on your local machine, execute the following commands 
 
 ### 1. Clone the Repository
 ```bash
-git clone https://github.com/YOUR_USERNAME/Sentinel-AI.git
+git clone https://github.com/uttam1008/Sentinel-AI.git
 cd Sentinel-AI
 ```
 
@@ -103,12 +99,12 @@ Sentinel-AI has been packaged and deployed to a live cloud server via Hugging Fa
 
 <div align="center">
   
-### [🚀 LAUNCH SENTINEL-AI DASHBOARD](https://huggingface.co/spaces/YOUR_USERNAME/Sentinel-AI)
+### [🚀 LAUNCH SENTINEL-AI DASHBOARD](https://huggingface.co/spaces/uttam250/Sentinel-AI)
 
 </div>
 
 ---
 
 <div align="center">
-  <p><i>Engineered by <b>[Your Name]</b>. For research, portfolio demonstration, and computer vision advancement.</i></p>
+  <p><i>Engineered by <b>Uttam Parmar</b>. For research, portfolio demonstration, and computer vision advancement.</i></p>
 </div>
