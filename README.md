@@ -54,7 +54,7 @@ Sentinel-AI serves as an active research environment to study the effects of fou
 | Metric | YOLOv8n (Nano) | YOLOv8s (Small) | Delta |
 | :--- | :--- | :--- | :--- |
 | **Parameter Count** | 3.2 Million | 11.2 Million | **+350% Capacity** |
-| **Mean Average Precision (mAP50)** | 32.5% | 38.8% | **+19.4% Boost** |
+| **Mean Average Precision (mAP50)** | 32.5% | 38.8% | **+6.3% Boost** |
 | **Micro-Target Extraction** | Feature Collapse | High Retention | **Critical Shift** |
 
 ### Key Discoveries
