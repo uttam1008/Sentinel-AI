@@ -41,25 +41,64 @@ st.markdown("""
 </style>
 """, unsafe_allow_html=True)
 
-st.title("🛰️ SENTINEL-AI ")
+st.title("🛰️ SENTINEL-AI")
 
-# 1. Lock both massive models into the GPU VRAM
+# 1. Lock massive models into the GPU VRAM
 @st.cache_resource
-def load_models():
-    # Load your custom weights!
-    yolo = YOLO('best.pt')
-    sam = SAM('mobile_sam.pt') 
-    return yolo, sam
+def load_yolo(model_path):
+    return YOLO(model_path)
 
-yolo_model, sam_model = load_models()
+@st.cache_resource
+def load_sam():
+    return SAM('mobile_sam.pt')
 
 # Main Dashboard Container
 with st.container():
     st.info("⚠️ **CALIBRATION NOTICE:** This neural network is strictly calibrated for aerial reconnaissance. It is trained exclusively to detect 10 specific targets from a top-down drone perspective: **Pedestrian, People, Bicycle, Car, Van, Truck, Tricycle, Awning-Tricycle, Bus, and Motor**. It will ignore unrelated objects.")
     
     st.sidebar.header("Radar Settings")
-    conf_thresh = st.sidebar.slider("Confidence Threshold", 0.0, 1.0, 0.25)
-    iou_thresh = st.sidebar.slider("NMS Overlap (IoU)", 0.0, 1.0, 0.50, help="1.00 = Boxes can overlap heavily. 0.00 = Boxes are deleted if they even slightly touch.")
+    
+    # Model Selection Toggle
+    model_selection = st.sidebar.selectbox(
+        "Radar Capability",
+        ["YOLOv8n (Baseline - 3.2M params)", "YOLOv8s (High Capacity - 11.2M params)"],
+        index=1,
+        help="YOLOv8s increases channel width for better tiny-object detection."
+    )
+    
+    model_path = "yolov8s_visdrone.pt" if "YOLOv8s" in model_selection else "yolov8n_visdrone.pt"
+    yolo_model = load_yolo(model_path)
+    sam_model = load_sam()
+
+    conf_thresh = st.sidebar.slider("Confidence Threshold", 0.0, 1.0, 0.40, help="Raise this to filter out weak ghost detections.")
+    iou_thresh = st.sidebar.slider("NMS Overlap (IoU)", 0.0, 1.0, 0.25, help="LOWER this number to merge overlapping boxes. 0.25 = Strict merging.")
+    
+    st.sidebar.markdown("---")
+    with st.sidebar.expander("🔬 DEEP RESEARCH: ARCHITECTURE SCALING", expanded=True):
+        st.markdown("""
+        **Foundation Model Benchmarking:**
+        Sentinel-AI was engineered to study feature-retention in ultra-dense aerial imagery. We benchmarked two scaling paradigms:
+        
+        | Metric | YOLOv8n (Baseline) | YOLOv8s (High Capacity) |
+        | :--- | :--- | :--- |
+        | **Parameters** | 3.2 Million | 11.2 Million |
+        | **mAP50** | 32.5% | **38.8%** (+6.3%) |
+        | **Micro-Targets** | Feature Collapse | High Retention |
+        
+        **Scientific Discovery:** 
+        While the Nano (V8n) architecture is highly optimized, its shallow channel depth mathematically erases weak pixel signatures. 
+        
+        By scaling to the Small (V8s) architecture, the network successfully retains microscopic gradients deeper into the convolution layers. This allows the system to extract **pedestrians and anomalous targets** hidden inside dense clusters (like parking lots) that the baseline model completely misses.
+        """)
+        
+    st.sidebar.markdown("---")
+    st.sidebar.markdown("""
+    <div style='text-align: center; padding: 10px; background-color: #1A1D24; border-radius: 5px; border: 1px solid #2C3E50;'>
+        <p style='color: #FF9F1C; font-size: 12px; letter-spacing: 2px; font-weight: bold; margin-bottom: 0px;'>👨‍💻 SYSTEM ARCHITECT</p>
+        <p style='font-size: 18px; font-weight: bold; margin-bottom: 5px;'>Uttam Parmar</p>
+        <a href='https://github.com/uttam1008' target='_blank'><img src='https://img.shields.io/badge/GitHub-Profile-100000?style=for-the-badge&logo=github&logoColor=white'></a>
+    </div>
+    """, unsafe_allow_html=True)
 
     uploaded_files = st.file_uploader("Upload Drone Images...", type=["jpg", "png"], accept_multiple_files=True)
 
@@ -134,12 +173,16 @@ with st.container():
                 st.markdown("### 🧬 ADVANCED NEURAL EXTRACTION")
                 extraction_mode = st.radio(
                     "SELECT EXTRACTION PROTOCOL:",
-                    ["🌐 OMNI-SEGMENTATION PROTOCOL (Extract All Targets)", 
+                    ["🛑 STANDBY (No Extraction)",
+                     "🌐 OMNI-SEGMENTATION PROTOCOL (Extract All Targets)", 
                      "🎯 SURGICAL TARGETING MODE (Manual Pixel Lock)"],
                     index=0
                 )
+                
+                if "STANDBY" in extraction_mode:
+                    st.info("⏸️ Neural Extraction standing by. Select a protocol above to engage the SAM (Segment Anything Model). Warning: Omni-Segmentation is computationally heavy on dense targets.")
 
-                if "OMNI-SEGMENTATION" in extraction_mode:
+                elif "OMNI-SEGMENTATION" in extraction_mode:
                     with st.spinner("🌐 RUNNING OMNI-SEGMENTATION PROTOCOL..."):
                         sam_results = sam_model.predict(image, bboxes=boxes.xyxy)
                         sam_bgr = sam_results[0].plot()

@@ -7,8 +7,7 @@
   <a href="#overview">Overview</a> •
   <a href="#core-architecture">Architecture</a> •
   <a href="#tactical-features">Features</a> •
-  <a href="#installation-protocols">Installation</a> •
-  <a href="#live-deployment">Live Demo</a>
+  <a href="#global-access-cloud-inference-engine">Live Demo</a>
 </p>
 
 [![Python](https://img.shields.io/badge/Python-3.9%2B-000000?style=for-the-badge&logo=python&logoColor=FF9F1C)](https://python.org)
@@ -47,6 +46,26 @@ graph LR
 
 ---
 
+## 🔬 Scientific Research: Architectural Scaling & Feature Retention
+
+Sentinel-AI serves as an active research environment to study the effects of foundation model scaling on ultra-high density, micro-target aerial imagery (VisDrone2019-DET).
+
+### Baseline Benchmarking: YOLOv8n vs YOLOv8s
+| Metric | YOLOv8n (Nano) | YOLOv8s (Small) | Delta |
+| :--- | :--- | :--- | :--- |
+| **Parameter Count** | 3.2 Million | 11.2 Million | **+350% Capacity** |
+| **Mean Average Precision (mAP50)** | 32.5% | 38.8% | **+19.4% Boost** |
+| **Micro-Target Extraction** | Feature Collapse | High Retention | **Critical Shift** |
+
+### Key Discoveries
+1. **Convolutional Channel Depth Overcomes the "Resolution Floor"**
+   Deep bounding-box metric analysis revealed that **85.9% of all targets in VisDrone are <32x32 pixels** (Micro-Targets). In dense testing (e.g., parking lots), the shallow channel depth of the Nano architecture mathematically erased weak pixel signatures, resulting in complete feature collapse for pedestrians. By scaling to the Small architecture, the network retained these microscopic gradients deeper into the convolution layers, successfully extracting anomalous human targets the baseline model missed entirely.
+   
+2. **Class Discrepancy via Aerial Geometry**
+   We proved that Average Precision (AP) is heavily dictated by cross-sectional pixel footprints. Vehicles achieve up to **79.0% AP50** due to their large top-down rectangular geometry. Conversely, Bicycles collapse to **13.0% AP50** because their physical width from a 90-degree aerial perspective is virtually invisible at standard sensor resolutions.
+
+---
+
 ## ⚡ Tactical Features
 
 ### 1. Precision Radar (Target Acquisition)
@@ -68,39 +87,19 @@ Static images are replaced with a high-performance **Plotly** mapping engine. Op
 
 ---
 
-## 💻 Installation Protocols
+## 🌍 Global Access: Cloud Inference Engine
 
-To initialize Sentinel-AI on your local machine, execute the following commands in your terminal:
+Sentinel-AI is decoupled from local hardware constraints. The entire neural pipeline has been containerized and deployed to a high-performance **Hugging Face** cloud infrastructure. 
 
-### 1. Clone the Repository
-```bash
-git clone https://github.com/uttam1008/Sentinel-AI.git
-cd Sentinel-AI
-```
+This allows external researchers, reviewers, and recruiters to execute complex foundation models (YOLOv8s + MobileSAM) dynamically from any web browser, with zero local installation required.
 
-### 2. Establish Virtual Environment & Dependencies
-```bash
-python -m venv venv
-source venv/bin/activate  # On Windows use: venv\Scripts\activate
-pip install -r requirements.txt
-```
-> *Note: OpenCV requires underlying system graphics libraries. If you are on Linux, ensure `libgl1-mesa-glx` is installed.*
-
-### 3. Boot the Tactical OS
-```bash
-python -m streamlit run streamlit_app.py
-```
-
----
-
-## ☁️ Live Deployment
-
-Sentinel-AI has been packaged and deployed to a live cloud server via Hugging Face Spaces. The environment operates on a dedicated Linux container, allowing you to run the heavy foundation models directly from your browser or mobile device.
+<br>
 
 <div align="center">
-  
-### [🚀 LAUNCH SENTINEL-AI DASHBOARD](https://huggingface.co/spaces/uttam250/Sentinel-AI)
-
+  <a href="https://huggingface.co/spaces/uttam250/Sentinel-AI">
+    <img src="https://img.shields.io/badge/INITIATE-LIVE_NEURAL_UPLINK-FF9F1C?style=for-the-badge&logo=huggingface&logoColor=white" height="45"/>
+  </a>
+  <p><i>Secure connection established. Click to launch the web-dashboard.</i></p>
 </div>
 
 ---

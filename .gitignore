@@ -13,5 +13,8 @@ __pycache__/
 runs/
 datasets/
 
+# Deep Learning Weights
+*.pt
+
 # MacOS
 .DS_Store
